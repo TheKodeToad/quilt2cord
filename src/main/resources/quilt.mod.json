@@ -5,7 +5,7 @@
 		"id": "quilt2cord",
 		"version": "${version}",
 		"metadata": {
-			"name": "Quilt2Cord",
+			"name": "quilt2cord",
 			"description": "Bridge Minecraft to Discord and vice-versa!",
 			"contributors": {
 				"TheKodeToad": "Author"
@@ -19,7 +19,7 @@
 		},
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
-			"init": "io.toadlabs.quilt2cord.Quilt2Cord"
+			"init": "io.toadlabs.quilt2cord.Quilt2cord"
 		},
 		"depends": [
 			{

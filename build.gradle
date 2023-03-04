@@ -9,6 +9,7 @@ group = project.maven_group
 
 repositories {
 	mavenCentral()
+	maven { url 'https://server.bbkr.space/artifactory/libs-release' }
 }
 
 // All the dependencies are declared at gradle/libs.version.toml and referenced with "libs.<id>"
@@ -29,6 +30,8 @@ dependencies {
 	// Quilted Fabric API will automatically pull in the correct QSL version.
 	modImplementation libs.quilted.fabric.api
 
+	modImplementation libs.jankson.fabric
+	include libs.jankson.fabric
 	implementation(libs.jda) {
 		// we shouldn't need audio...
 		exclude module: 'opus-java'
