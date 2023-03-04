@@ -30,6 +30,7 @@ dependencies {
 	// Quilted Fabric API will automatically pull in the correct QSL version.
 	modImplementation libs.quilted.fabric.api
 
+	// TODO use Quilt's doh
 	modImplementation libs.jankson.fabric
 	include libs.jankson.fabric
 	implementation(libs.jda) {

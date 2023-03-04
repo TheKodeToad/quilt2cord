@@ -1,6 +1,10 @@
 package io.toadlabs.quilt2cord;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +30,10 @@ public final class Quilt2cord implements ModInitializer {
 	@Override
 	public void onInitialize(ModContainer mod) {
 		try {
+			Path configFile = QuiltLoader.getConfigDir().resolve(NAME + ".hjson");
+			config.load(configFile);
 			bot.start();
-		} catch (InterruptedException error) {
+		} catch (Throwable error) {
 			LOGGER.error("Oh dear!.. {} couldn't start", NAME, error);
 			bot = null;
 			config = null;
