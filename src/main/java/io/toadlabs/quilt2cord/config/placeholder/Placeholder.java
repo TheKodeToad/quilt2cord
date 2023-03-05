@@ -1,5 +1,7 @@
 package io.toadlabs.quilt2cord.config.placeholder;
 
+import io.toadlabs.quilt2cord.config.placeholder.eval.Evaluator;
+
 /**
  * "Basic" placeholder replacement.
  *
@@ -50,7 +52,7 @@ public final class Placeholder {
 	}
 
 	private boolean hasRemaining() {
-		return cursor < input.length();
+		return cursor < input.length() - 1;
 	}
 
 	private void passthrough() {
@@ -72,6 +74,8 @@ public final class Placeholder {
 				break;
 			}
 
+			read();
+
 			while (read() != '}') {
 				if (current() == '\\') {
 					switch (read()) {
@@ -88,10 +92,12 @@ public final class Placeholder {
 					default:
 						throw new ParseException("Invalid escape, expected one of the following: '\\', ''', '}'", this);
 					}
-				}
+				} else
+					expression.append(current());
 			}
 
 			result.append(evaluator.eval(expression.toString()));
+			expression.setLength(0);
 		}
 
 	}

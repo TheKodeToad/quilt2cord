@@ -1,4 +1,4 @@
-package io.toadlabs.quilt2cord.config.placeholder;
+package io.toadlabs.quilt2cord.config.placeholder.eval;
 
 public interface Evaluator {
 
