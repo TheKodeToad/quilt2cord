@@ -1,6 +1,5 @@
 package io.toadlabs.quilt2cord;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 import org.quiltmc.loader.api.ModContainer;
@@ -19,11 +18,11 @@ public final class Quilt2cord implements ModInitializer {
 	private Bot bot = new Bot(this);
 	private Config config = new Config();
 
-	public Bot getBot() {
+	public Bot bot() {
 		return bot;
 	}
 
-	public Config getConfig() {
+	public Config config() {
 		return config;
 	}
 
@@ -37,7 +36,8 @@ public final class Quilt2cord implements ModInitializer {
 				bot.start();
 				return;
 			} else {
-				LOGGER.warn("In order for {} to function, you must provide a token in the config ({})", NAME, configFile);
+				LOGGER.warn("In order for {} to function, you must provide a token in the config ({})", NAME,
+						configFile);
 			}
 		} catch (Throwable error) {
 			LOGGER.error("Oh dear!.. {} couldn't start", NAME, error);
