@@ -8,8 +8,8 @@ package io.toadlabs.quilt2cord.config.placeholder;
  */
 public final class Placeholder {
 
-	public static String process(String input) throws ParseException {
-		Placeholder placeholder = new Placeholder(input);
+	public static String process(String input, Evaluator evaluator) throws ParseException {
+		Placeholder placeholder = new Placeholder(input, evaluator);
 		placeholder.process();
 		return placeholder.result.toString();
 	}
@@ -17,12 +17,14 @@ public final class Placeholder {
 	// internal
 
 	private final String input;
+	private final Evaluator evaluator;
 	private int cursor = 0;
 	private final StringBuilder result = new StringBuilder();
 	private final StringBuilder expression = new StringBuilder();
 
-	private Placeholder(String input) {
+	private Placeholder(String input, Evaluator evaluator) {
 		this.input = input;
+		this.evaluator = evaluator;
 	}
 
 	int cursor() {
@@ -73,21 +75,23 @@ public final class Placeholder {
 			while (read() != '}') {
 				if (current() == '\\') {
 					switch (read()) {
-						case '\\':
-							expression.append("\\");
-							break;
-						case '}':
-							expression.append("}");
-							break;
-						case 'n':
-							// would you need this?
-							expression.append('n');
-							break;
-						default:
-							throw new ParseException("Invalid escape, expected one of the following: '\\', ''', '}'", this);
+					case '\\':
+						expression.append("\\");
+						break;
+					case '}':
+						expression.append("}");
+						break;
+					case 'n':
+						// would you need this?
+						expression.append('n');
+						break;
+					default:
+						throw new ParseException("Invalid escape, expected one of the following: '\\', ''', '}'", this);
 					}
 				}
 			}
+
+			result.append(evaluator.eval(expression.toString()));
 		}
 
 	}
