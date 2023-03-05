@@ -4,24 +4,44 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import blue.endless.jankson.Jankson;
-import blue.endless.jankson.api.SyntaxError;
+import org.quiltmc.json5.JsonReader;
+import org.quiltmc.json5.JsonWriter;
 
 public final class Config {
 
-	private final Jankson jankson = Jankson.builder().registerTypeFactory(Config.class, () -> this).build();
+	public String token = "";
 
-	public String token = "<PUT IT HERE>";
+	public void load(Path file) throws IOException {
+		if (!Files.exists(file))
+			return;
 
-	public void load(Path file) throws SyntaxError, IOException {
-		if (!Files.exists(file)) // if it's not there, write it!
-			save(file);
-		else
-			jankson.fromJson(Files.readString(file), Config.class);
+		try (JsonReader reader = JsonReader.json5(file)) {
+			reader.beginObject();
+			while (reader.hasNext()) {
+				String key = reader.nextName();
+				if (key.equals("token"))
+					token = reader.nextString();
+			}
+			reader.endObject();
+		}
+
+		if (token.isBlank())
+			token = System.getProperty("io.toadlabs.quilt2cord.token", null);
+		if (token == null)
+			token = System.getenv("QUILT2CORD_TOKEN");
 	}
 
 	public void save(Path file) throws IOException {
-		Files.writeString(file, jankson.toJson(this).toJson());
+		try (JsonWriter writer = JsonWriter.json5(file)) {
+			writer.beginObject();
+			writer.comment("The bot's token");
+			writer.comment(
+					"Either use java [...] -Dio.toadlabs.quilt2cord.token=token -jar [...] (system property) or QUILT2CORD_TOKEN=token java [...] (environment variable)");
+			writer.comment("Your host hopefully provides a way to use either of these!");
+			writer.name("token");
+			writer.value(token);
+			writer.endObject();
+		}
 	}
 
 }

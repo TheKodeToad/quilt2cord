@@ -30,15 +30,20 @@ public final class Quilt2cord implements ModInitializer {
 	@Override
 	public void onInitialize(ModContainer mod) {
 		try {
-			Path configFile = QuiltLoader.getConfigDir().resolve(NAME + ".hjson");
+			Path configFile = QuiltLoader.getConfigDir().resolve(NAME + ".json5");
 			config.load(configFile);
-			bot.start();
+			config.save(configFile);
+			if (config.token != null) {
+				bot.start();
+				return;
+			} else {
+				LOGGER.warn("In order for {} to function, you must provide a token in the config ({})", NAME, configFile);
+			}
 		} catch (Throwable error) {
 			LOGGER.error("Oh dear!.. {} couldn't start", NAME, error);
-			bot = null;
-			config = null;
-			return;
 		}
+		bot = null;
+		config = null;
 	}
 
 }
