@@ -9,6 +9,7 @@ public final class ChatConfig implements ConfigPart {
 
 	public String channel = "";
 	public String discordFormat = "<${player}> ${message}";
+	public String minecraftFormat = "[${user} on Discord] ${message}";
 
 	@Override
 	public void read(JsonReader reader) throws IOException {
@@ -19,6 +20,8 @@ public final class ChatConfig implements ConfigPart {
 				channel = reader.nextString();
 			else if (key.equals("discord_format"))
 				discordFormat = reader.nextString();
+			else if (key.equals("minecraft_format"))
+				minecraftFormat = reader.nextString();
 		}
 		reader.endObject();
 	}
@@ -34,6 +37,10 @@ public final class ChatConfig implements ConfigPart {
 		writer.comment("The format of the message to send to Discord");
 		writer.name("discord_format");
 		writer.value(discordFormat);
+
+		writer.comment("The format of the message to send from Discord");
+		writer.name("minecraft_format");
+		writer.value(minecraftFormat);
 
 		writer.endObject();
 	}

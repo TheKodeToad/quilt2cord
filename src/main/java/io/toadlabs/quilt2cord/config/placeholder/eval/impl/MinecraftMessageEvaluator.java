@@ -4,11 +4,11 @@ import org.quiltmc.qsl.chat.api.types.ChatC2SMessage;
 
 import io.toadlabs.quilt2cord.config.placeholder.eval.Evaluator;
 
-public final class ChatMessageEvaluator implements Evaluator {
+public final class MinecraftMessageEvaluator implements Evaluator {
 
 	private final ChatC2SMessage message;
 
-	public ChatMessageEvaluator(ChatC2SMessage message) {
+	public MinecraftMessageEvaluator(ChatC2SMessage message) {
 		this.message = message;
 	}
 

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.toadlabs.quilt2cord.config.Config;
+import io.toadlabs.quilt2cord.handler.MinecraftServerCaptureHandler;
 
 public final class Quilt2cord implements ModInitializer {
 
@@ -29,6 +30,8 @@ public final class Quilt2cord implements ModInitializer {
 	@Override
 	public void onInitialize(ModContainer mod) {
 		try {
+			MinecraftServerCaptureHandler.register();
+
 			Path configFile = QuiltLoader.getConfigDir().resolve(NAME + ".json5");
 			config.load(configFile);
 			config.save(configFile);

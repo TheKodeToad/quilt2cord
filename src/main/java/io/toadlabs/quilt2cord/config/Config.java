@@ -22,7 +22,7 @@ public final class Config implements ConfigPart {
 			try (JsonReader reader = JsonReader.json5(file)) {
 				read(reader);
 			}
-		} catch (IOException error) {
+		} catch (IOException | IllegalStateException error) {
 			LOGGER.warn("Could not read config", error);
 		}
 
